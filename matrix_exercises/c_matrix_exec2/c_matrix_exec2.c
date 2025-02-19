@@ -13,17 +13,17 @@
 // output: invalid
 
 #include <stdbool.h>
-bool char_board_win(char board[3][3]);
+bool char_board_win(char board[3][3], char charr);
 bool board_is_valid(char board[3][3]);
 
 int main(void){
-    char board_1[3][3] = {
+    char board_1[3][3] = { //test board 1
         {'O', 'X', 'X'},
         {'O', 'X', 'X'},
         {'O', 'O', 'X'}
     };
 
-    char board_2[3][3] = {
+    char board_2[3][3] = { //test board 2
         {'X', 'X', 'O'},
         {'O', 'O', 'X'},
         {'X', 'O', 'X'}
@@ -44,8 +44,22 @@ int main(void){
     }
 }
 
-bool char_board_win(char board[3][3], char char_symb){
-    // VERIFICAR SE UM DADO CARACTER GANHOU O JOGO
+bool char_board_win(char board[3][3], char charr){
+    // CHeking lines
+    for (int i = 0; i < 3; i++) {
+        if ((board[i][0] == charr && board[i][1] == charr && board[i][2] == charr) ||
+            (board[0][i] == charr && board[1][i] == charr && board[2][i] == charr)) {
+            return true;
+        }
+    }
+
+    // Checking diagonal
+    if ((board[0][0] == charr && board[1][1] == charr && board[2][2] == charr) ||
+        (board[0][2] == charr && board[1][1] == charr && board[2][0] == charr)) {
+        return true;
+    }
+
+    return false;
 }
 
 bool board_is_valid(char board[3][3]){
@@ -68,7 +82,7 @@ bool board_is_valid(char board[3][3]){
         return false;
     }
     bool win_x = char_board_win(board, 'X');
-    bool win_o = char_board_wind(board, 'O');
+    bool win_o = char_board_win(board, 'O');
 
     // Check 2
     if (win_x && win_o){
